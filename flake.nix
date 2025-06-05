@@ -1,5 +1,5 @@
 {
-  description = "EDA for db";
+  description = "Code for the demo presentation";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
