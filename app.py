@@ -20,7 +20,7 @@ def load_conversations(logger: logging.Logger) -> pd.DataFrame:
     if not os.path.isfile("./conversations.pkl"):
         start_time = time.time()
         logger.info("Conversations not cached. Fetching from database...")
-        convstr.load_conversations()
+        convstr.load_conversations(logger)
         logger.info(
             f"Conversations fetched. Time taken: {str(timedelta(seconds=time.time() - start_time))}"
         )
