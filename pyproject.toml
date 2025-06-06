@@ -5,10 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "conversation_store",
+    "convstr",
     "pandas>=2.2.3",
     "pandas-stubs>=2.2.3.250527",
 ]
 
 [tool.uv.sources]
-conversation-store = { path = "libs/conversation_store" }
+convstr = { git = "https://github.com/zenithanalitica/conversation-store" }
+
