@@ -12,3 +12,6 @@ wheels/
 # Secrets
 credentials.py
 .env
+
+# Big files
+conversations.pkl
