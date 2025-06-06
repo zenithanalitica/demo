@@ -4,7 +4,7 @@ import os
 import time
 from typing import cast
 import pandas as pd
-import libs.conversation_store as convstr
+import convstr
 
 
 class App:

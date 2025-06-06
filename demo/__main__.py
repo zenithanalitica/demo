@@ -1,4 +1,4 @@
-import app
+import demo.app as app
 
 
 def main():
