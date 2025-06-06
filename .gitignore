@@ -11,3 +11,4 @@ wheels/
 
 # Secrets
 credentials.py
+.env
