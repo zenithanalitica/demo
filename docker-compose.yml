@@ -26,6 +26,8 @@ services:
         - db
 
   data-pipeline:
+    volumes:
+      - ./data:/data
     build:
       context: ./data-pipeline
     # Make sure the application only starts when the DB is indeed ready
