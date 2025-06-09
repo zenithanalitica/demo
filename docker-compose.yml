@@ -7,7 +7,7 @@ services:
         - /$HOME/neo4j/data:/data
         - /$HOME/neo4j/plugins:/plugins
     # environment:
-    #     - NEO4J_AUTH=neo4j/your_password
+    #   - NEO4J_AUTH=neo4j/neo4j
     ports:
       - "7474:7474"
       - "7687:7687"
@@ -18,6 +18,8 @@ services:
       timeout: 10s
       retries: 20
       start_period: 3s
+    networks:
+        - db
 
   data-pipeline:
     build:
@@ -26,18 +28,23 @@ services:
     depends_on:
       neo4j:
         condition: service_healthy
+    networks:
+        - db
 
-  sentiment-score:
-    build:
-      context: ./sentiment-score
-    depends_on:
-      data-pipeline:
-        condition: service_completed_successfully
+  # sentiment-score:
+  #   build:
+  #     context: ./sentiment-score
+  #   depends_on:
+  #     data-pipeline:
+  #       condition: service_completed_successfully
+  #
+  # demo:
+  #   build:
+  #     context: .
+  #   depends_on:
+  #     sentiment-score:
+  #       condition: service_completed_successfully
 
-  demo:
-    build:
-      context: .
-    depends_on:
-      sentiment-score:
-        condition: service_completed_successfully
 
+networks:
+  db:
