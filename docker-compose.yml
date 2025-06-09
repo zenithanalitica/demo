@@ -1,0 +1,43 @@
+services:
+  neo4j:
+    image: neo4j:latest
+    volumes:
+        - /$HOME/neo4j/logs:/logs
+        - /$HOME/neo4j/config:/config
+        - /$HOME/neo4j/data:/data
+        - /$HOME/neo4j/plugins:/plugins
+    # environment:
+    #     - NEO4J_AUTH=neo4j/your_password
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    restart: always
+    healthcheck:
+      test: wget http://localhost:7474 || exit 1
+      interval: 1s
+      timeout: 10s
+      retries: 20
+      start_period: 3s
+
+  data-pipeline:
+    build:
+      context: ./data-pipeline
+    # Make sure the application only starts when the DB is indeed ready
+    depends_on:
+      neo4j:
+        condition: service_healthy
+
+  sentiment-score:
+    build:
+      context: ./sentiment-score
+    depends_on:
+      data-pipeline:
+        condition: service_completed_successfully
+
+  demo:
+    build:
+      context: .
+    depends_on:
+      sentiment-score:
+        condition: service_completed_successfully
+
