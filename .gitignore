@@ -15,3 +15,8 @@ credentials.py
 
 # Big files
 conversations.pkl
+
+# Deployement directories
+data/
+data-pipeline/
+sentiment-score/
