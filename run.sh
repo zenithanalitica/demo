@@ -19,5 +19,11 @@ clone_or_pull() {
 clone_or_pull https://github.com/zenithanalitica/data-pipeline data-pipeline
 clone_or_pull https://github.com/zenithanalitica/sentiment-score sentiment-score
 
+# Set env vars
+export NEO4J_URI="neo4j:7687"
+export NEO4J_USERNAME=neo4j
+export NEO4J_PASSWORD=verycomplicatedpassword
+export NEO4J_AUTH="${NEO4J_USERNAME}/${NEO4J_PASSWORD}"
+
 # Run docker compose
 docker compose up
