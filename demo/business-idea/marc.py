@@ -4,7 +4,7 @@ import logging
 from . import categorization
 from . import sentiment
 
-INPUT_PICKLE_PATH = r'.\business-idea\conversations.pkl'
+INPUT_PICKLE_PATH = r'.\conversations.pkl'
 OUTPUT_PICKLE_PATH = 'processed_conversations.pkl'
 
 def main():
