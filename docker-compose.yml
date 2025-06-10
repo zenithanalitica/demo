@@ -34,7 +34,6 @@ services:
       - NEO4J_URI
       - NEO4J_USERNAME
       - NEO4J_PASSWORD
-      - NEO4J_AUTH
     # Make sure the application only starts when the DB is indeed ready
     depends_on:
       neo4j:
@@ -42,13 +41,19 @@ services:
     networks:
         - db
 
-  # sentiment-score:
-  #   build:
-  #     context: ./sentiment-score
-  #   depends_on:
-  #     data-pipeline:
-  #       condition: service_completed_successfully
-  #
+  sentiment-score:
+    build:
+      context: ./sentiment-score
+    environment:
+      - NEO4J_URI
+      - NEO4J_USERNAME
+      - NEO4J_PASSWORD
+    depends_on:
+      data-pipeline:
+        condition: service_completed_successfully
+    networks:
+        - db
+
   # demo:
   #   build:
   #     context: .
