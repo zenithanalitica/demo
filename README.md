@@ -18,8 +18,8 @@
 1. Clone the repository:
 
    ```bash
-   git clone <repo-url>
-   cd <repo-directory>
+   git clone https://github.com/zenithanalitica/demo/
+   cd demo/
    ```
 2. Make the `run.sh` script executable:
 
@@ -39,8 +39,8 @@
 1. Clone the repository:
 
    ```bash
-   git clone <repo-url>
-   cd <repo-directory>
+   git clone https://github.com/zenithanalitica/demo/
+   cd demo/
    ```
 2. Run the batch file:
 
