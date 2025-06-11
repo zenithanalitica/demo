@@ -1,0 +1,6 @@
+conversations.pkl
+.venv/
+data-pipeline/
+sentiment-score/
+neo4j/
+data/
