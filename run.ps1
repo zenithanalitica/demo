@@ -27,13 +27,29 @@ $env:NEO4J_USERNAME = "neo4j"
 $env:NEO4J_PASSWORD = "verycomplicatedpassword"
 $env:NEO4J_AUTH = "$($env:NEO4J_USERNAME)/$($env:NEO4J_PASSWORD)"
 
-# Start Docker Compose in the background
-Start-Process -NoNewWindow -FilePath "docker" -ArgumentList "compose up" 
+# Recognize if nvidia driver is availabe
+$NVIDIA = $false
+if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) {
+    $null = & nvidia-smi 2>$null
+    if ($LASTEXITCODE -eq 0) {
+        $NVIDIA = $true
+    }
+}
 
-$AppCid = ""
-while (-not $AppCid) {
+# Run docker compose with appropriate profile
+if ($NVIDIA) {
+    docker compose --profile gpu up -d
+    $APP_NAME = "demo-app-gpu"
+} else {
+    docker compose --profile cpu up -d
+    $APP_NAME = "demo-app-cpu"
+}
+
+# Wait for demo-app container to be running
+$APP_CID = ""
+while (-not $APP_CID) {
     Start-Sleep -Seconds 1
-    $AppCid = docker compose ps -q demo-app
+    $APP_CID = docker compose ps -q $APP_NAME
 }
 
 # Wait for the container to exit
