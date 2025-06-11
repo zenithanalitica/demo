@@ -28,4 +28,4 @@ $env:NEO4J_PASSWORD = "verycomplicatedpassword"
 $env:NEO4J_AUTH = "$($env:NEO4J_USERNAME)/$($env:NEO4J_PASSWORD)"
 
 # Run Docker Compose
-docker compose up
+docker compose up --exit-code-from app

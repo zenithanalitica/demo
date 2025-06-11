@@ -26,4 +26,4 @@ export NEO4J_PASSWORD=verycomplicatedpassword
 export NEO4J_AUTH="${NEO4J_USERNAME}/${NEO4J_PASSWORD}"
 
 # Run docker compose
-docker compose up
+docker compose up --exit-code-from app
