@@ -27,5 +27,17 @@ $env:NEO4J_USERNAME = "neo4j"
 $env:NEO4J_PASSWORD = "verycomplicatedpassword"
 $env:NEO4J_AUTH = "$($env:NEO4J_USERNAME)/$($env:NEO4J_PASSWORD)"
 
-# Run Docker Compose
-docker compose up --exit-code-from app
+# Start Docker Compose in the background
+Start-Process -NoNewWindow -FilePath "docker" -ArgumentList "compose up" 
+
+$AppCid = ""
+while (-not $AppCid) {
+    Start-Sleep -Seconds 1
+    $AppCid = docker compose ps -q demo-app
+}
+
+# Wait for the container to exit
+docker wait $AppCid
+
+# Shut down the stack
+docker compose down

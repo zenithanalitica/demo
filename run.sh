@@ -26,4 +26,17 @@ export NEO4J_PASSWORD=verycomplicatedpassword
 export NEO4J_AUTH="${NEO4J_USERNAME}/${NEO4J_PASSWORD}"
 
 # Run docker compose
-docker compose up --exit-code-from app
+docker compose up &
+
+# Wait for demo-app container to be running
+APP_CID=""
+while [ -z "$APP_CID" ]; do
+  sleep 1
+  APP_CID=$(docker-compose ps -q demo-app)
+done
+
+# Wait for the app container to exit
+docker wait $APP_CID
+
+# Shut down the rest of the stack
+docker-compose down
