@@ -42,10 +42,11 @@
    git clone https://github.com/zenithanalitica/demo/
    cd demo/
    ```
-2. Run the batch file:
+2. Run the Powershell file:
 
    ```bash
-   run.bat
+   .\run.ps1
    ```
+(You may need to bypass the execution policy with `powershell -ExecutionPolicy Bypass -File run.ps1`)
 
 ---
