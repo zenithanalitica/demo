@@ -54,7 +54,7 @@ services:
     networks:
         - db
 
-  app:
+  demo-app:
     build:
       context: .
     volumes:
