@@ -25,14 +25,27 @@ export NEO4J_USERNAME=neo4j
 export NEO4J_PASSWORD=verycomplicatedpassword
 export NEO4J_AUTH="${NEO4J_USERNAME}/${NEO4J_PASSWORD}"
 
+# Recognize if nvidia driver is availabe
+if nvidia-smi &> /dev/null ; then
+  NVIDIA=true
+else
+  NVIDIA=false
+fi
+
 # Run docker compose
-docker compose up &
+if $NVIDIA; then
+  docker compose --profile gpu up &
+  APP_NAME="demo-app-gpu"
+else
+  docker compose --profile cpu up &
+  APP_NAME="demo-app-cpu"
+fi
 
 # Wait for demo-app container to be running
 APP_CID=""
 while [ -z "$APP_CID" ]; do
   sleep 1
-  APP_CID=$(docker-compose ps -q demo-app)
+  APP_CID=$(docker-compose ps -q $APP_NAME)
 done
 
 # Wait for the app container to exit

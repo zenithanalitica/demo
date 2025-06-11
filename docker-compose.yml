@@ -41,7 +41,47 @@ services:
     networks:
         - db
 
-  sentiment-score:
+
+# ----- GPU Profile ------
+  sentiment-score-gpu:
+    profiles: ["gpu"]
+    build:
+      context: ./sentiment-score
+    environment:
+      - NEO4J_URI
+      - NEO4J_USERNAME
+      - NEO4J_PASSWORD
+    depends_on:
+      data-pipeline:
+        condition: service_completed_successfully
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    networks:
+        - db
+
+  demo-app-gpu:
+    profiles: ["gpu"]
+    build:
+      context: .
+    volumes:
+      - ./:/app
+    environment:
+      - NEO4J_URI
+      - NEO4J_USERNAME
+      - NEO4J_PASSWORD
+    depends_on:
+      sentiment-score-gpu:
+        condition: service_completed_successfully
+
+
+# ----- CPU Profile ------
+  sentiment-score-cpu:
+    profiles: ["cpu"]
     build:
       context: ./sentiment-score
     environment:
@@ -55,6 +95,7 @@ services:
         - db
 
   demo-app:
+    profiles: ["cpu"]
     build:
       context: .
     volumes:
@@ -64,7 +105,7 @@ services:
       - NEO4J_USERNAME
       - NEO4J_PASSWORD
     depends_on:
-      sentiment-score:
+      sentiment-score-cpu:
         condition: service_completed_successfully
 
 
