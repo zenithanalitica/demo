@@ -55,7 +55,9 @@ class App:
         self.end_date = date.fromisoformat(cast(str, args.end_date))
 
     def save_df(self) -> None:
-        pd.to_pickle(self.conversations, "./conversations.pkl")
+        file = "./conversations.pkl"
+        self.logger.info(f"Saving data frame to the {file}")
+        pd.to_pickle(self.conversations, file)
 
 
 def load_conversations(logger: logging.Logger) -> pd.DataFrame:
