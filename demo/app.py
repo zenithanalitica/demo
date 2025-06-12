@@ -2,7 +2,7 @@ import argparse
 import logging
 import os
 import time
-from datetime import date, timedelta
+from datetime import timedelta, date
 from typing import cast
 
 import convstr
@@ -23,11 +23,9 @@ class App:
 
     def run(self) -> None:
         # Process data
-        # self.conversations.categorize(self.logger)
-        # self.conversations.compute_all_sentiment_changes(self.logger)
-        print(self.start_date)
-        print(self.end_date)
-        print("done")
+        self.conversations.adjust(self.start_date, self.end_date)
+        self.conversations.categorize(self.logger)
+        self.conversations.compute_all_sentiment_changes(self.logger)
 
     def parse_args(self):
         # Initialize parser

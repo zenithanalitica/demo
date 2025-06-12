@@ -75,6 +75,9 @@ def assign_category_to_conv(
 
 
 def categorize_conversations(df: pd.DataFrame, logger: logging.Logger) -> pd.DataFrame:
+    if 'category' in df.columns:
+        return df
+    
     logger.info("Evaluating categories for conversations...")
     start_time = time.time()
 
