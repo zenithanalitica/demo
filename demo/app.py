@@ -26,6 +26,7 @@ class App:
         self.conversations.adjust(self.start_date, self.end_date)
         self.conversations.categorize(self.logger)
         self.conversations.compute_all_sentiment_changes(self.logger)
+        self.save_df()
 
     def parse_args(self):
         # Initialize parser
@@ -52,6 +53,9 @@ class App:
 
         self.start_date = date.fromisoformat(cast(str, args.start_date))
         self.end_date = date.fromisoformat(cast(str, args.end_date))
+
+    def save_df(self) -> None:
+        pd.to_pickle(self.conversations, "./conversations.pkl")
 
 
 def load_conversations(logger: logging.Logger) -> pd.DataFrame:
