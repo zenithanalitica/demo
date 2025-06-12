@@ -39,13 +39,13 @@ class App:
             "--start-date",
             type=str,
             help="Start date of the desired period in YYYY-MM-DD format",
-            default="",
+            default="1000-01-01",
         )
         _ = parser.add_argument(
             "--end-date",
             type=str,
             help="End date of the desired period in YYYY-MM-DD format",
-            default="",
+            default="3000-12-31",
         )
 
         # Read arguments from command line and cast them to Args class
