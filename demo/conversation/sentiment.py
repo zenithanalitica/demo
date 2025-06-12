@@ -16,6 +16,7 @@ def calculate_sentiment_change_for_conv(conv: pd.DataFrame) -> pd.DataFrame:
 
 def compute_all_sentiment_changes(df: pd.DataFrame, logger: logging.Logger) -> pd.DataFrame:
     if 'sentiment' in df.columns:
+        logger.info(f'Sentiment change already present in the DataFrame; skipping computation')
         return df
     
     logger.info('Computing sentiment change for conversations...')
