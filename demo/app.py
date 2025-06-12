@@ -1,7 +1,8 @@
+import argparse
 import logging
 import os
 import time
-from datetime import timedelta
+from datetime import date, timedelta
 from typing import cast
 
 import convstr
@@ -16,11 +17,43 @@ class App:
         self.conversations: conv.Conversations = conv.Conversations(
             load_conversations(self.logger)
         )
+        self.start_date: date
+        self.end_date: date
+        self.parse_args()
 
     def run(self) -> None:
         # Process data
-        self.conversations.categorize(self.logger)
-        self.conversations.compute_all_sentiment_changes(self.logger)
+        # self.conversations.categorize(self.logger)
+        # self.conversations.compute_all_sentiment_changes(self.logger)
+        print(self.start_date)
+        print(self.end_date)
+        print("done")
+
+    def parse_args(self):
+        # Initialize parser
+        parser = argparse.ArgumentParser(
+            prog="demo", description="Demo for app", exit_on_error=True
+        )
+
+        # Add arguments
+        _ = parser.add_argument(
+            "--start-date",
+            type=str,
+            help="Start date of the desired period in YYYY-MM-DD format",
+            default="",
+        )
+        _ = parser.add_argument(
+            "--end-date",
+            type=str,
+            help="End date of the desired period in YYYY-MM-DD format",
+            default="",
+        )
+
+        # Read arguments from command line and cast them to Args class
+        args = parser.parse_args()
+
+        self.start_date = date.fromisoformat(cast(str, args.start_date))
+        self.end_date = date.fromisoformat(cast(str, args.end_date))
 
 
 def load_conversations(logger: logging.Logger) -> pd.DataFrame:
