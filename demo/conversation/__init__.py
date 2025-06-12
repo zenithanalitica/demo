@@ -1,10 +1,16 @@
 import logging
 from . import sentiment
 from . import categorization
+from . import adjust
 import pandas as pd
+import datetime
 
 
 class Conversations(pd.DataFrame):
+
+    def adjust(self, start_date: datetime.date, end_date: datetime.date):
+        self = adjust.adjust_df(self, start_date, end_date)
+
     def categorize(self, logger: logging.Logger):
         self = categorization.categorize_conversations(self, logger)
 

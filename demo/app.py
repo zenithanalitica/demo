@@ -1,7 +1,7 @@
 import logging
 import os
 import time
-from datetime import timedelta
+from datetime import timedelta, date
 from typing import cast
 
 import convstr
@@ -17,8 +17,12 @@ class App:
             load_conversations(self.logger)
         )
 
+        self.start_date: date
+        self.end_date: date
+
     def run(self) -> None:
         # Process data
+        self.conversations.adjust(self.start_date, self. end_date)
         self.conversations.categorize(self.logger)
         self.conversations.compute_all_sentiment_changes(self.logger)
 
