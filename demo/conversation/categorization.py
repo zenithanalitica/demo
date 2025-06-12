@@ -79,7 +79,7 @@ def categorize_conversations(df: pd.DataFrame, logger: logging.Logger) -> pd.Dat
     start_time = time.time()
 
     df_categorized = df.groupby("conversation", group_keys=False).apply(
-        assign_category_to_conv, category_keywords=CATEGORY_KEYWORDS
+        assign_category_to_conv
     )
 
     end_time = time.time()
