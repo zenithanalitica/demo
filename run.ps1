@@ -29,8 +29,8 @@ $env:NEO4J_AUTH = "$($env:NEO4J_USERNAME)/$($env:NEO4J_PASSWORD)"
 
 # Recognize if nvidia driver is availabe
 $NVIDIA = $false
-if (Get-Command nvidia-smi -ErrorAction SilentlyContinue) {
-    $null = & nvidia-smi 2>$null
+if (Get-Command /Windows/System32/nvidia-smi -ErrorAction SilentlyContinue) {
+    $null = & /Windows/System32/nvidia-smi 2>$null
     if ($LASTEXITCODE -eq 0) {
         $NVIDIA = $true
     }
