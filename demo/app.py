@@ -15,7 +15,7 @@ class App:
     def __init__(self) -> None:
         self.logger: logging.Logger = create_logger()
         self.conversations: conv.Conversations = conv.Conversations(
-            load_conversations(self.logger)
+            load_conversations(self.logger).head(100)
         )
         self.start_date: date
         self.end_date: date
@@ -23,9 +23,14 @@ class App:
 
     def run(self) -> None:
         # Process data
-        self.conversations.adjust(self.start_date, self.end_date, self.logger)
-        self.conversations.categorize(self.logger)
-        self.conversations.compute_all_sentiment_changes(self.logger)
+        self.conversations = self.conversations.adjust(
+            self.start_date, self.end_date, self.logger
+        )
+        self.conversations = self.conversations.categorize(self.logger)
+        self.conversations = self.conversations.compute_all_sentiment_changes(
+            self.logger
+        )
+        print(self.conversations.head())
         self.save_df()
 
     def parse_args(self):
