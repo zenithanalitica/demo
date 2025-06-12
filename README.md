@@ -20,13 +20,24 @@
    ```bash
    git clone https://github.com/zenithanalitica/demo/
    cd demo/
-   ```
-2. Make the `run.sh` script executable:
+
+2. Place unzipped data in the current directory, so it looks like this:
+```
+|
+|- data/
+|    |- airlines-15....json
+|    |- airlines-15....json
+|    |- ...
+|- demo/
+|- run.sh
+|- run.ps1
+```
+3. Make the `run.sh` script executable:
 
    ```bash
    chmod +x run.sh
    ```
-3. Execute the script:
+4. Execute the script:
 
    ```bash
    ./run.sh
@@ -41,8 +52,18 @@
    ```bash
    git clone https://github.com/zenithanalitica/demo/
    cd demo/
-   ```
-2. Run the Powershell file:
+2. Place unzipped data in the current directory, so it looks like this:
+```
+|
+|- data/
+|    |- airlines-15....json
+|    |- airlines-15....json
+|    |- ...
+|- demo/
+|- run.sh
+|- run.ps1
+```
+3. Run the Powershell file:
 
    ```bash
    .\run.ps1
