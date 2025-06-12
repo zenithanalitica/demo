@@ -5,7 +5,7 @@ import logging
 def adjust_df(df: pd.DataFrame, start_date: datetime.date, end_date: datetime.date, logger: logging.Logger) -> pd.DataFrame:
 
     if start_date is None or end_date is None:
-        logger.info(f'No date range specified. Using full period: [{start_date} → {end_date}]')
+        logger.info(f'No date range specified. Using full period')
         return df
     
     conversations = df.xs(0, level = 'tweet').copy()
