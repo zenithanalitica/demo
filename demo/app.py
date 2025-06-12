@@ -17,8 +17,8 @@ class App:
         self.conversations: conv.Conversations = conv.Conversations(
             load_conversations(self.logger).head(100)
         )
-        self.start_date: date
-        self.end_date: date
+        self.start_date: date | None = None
+        self.end_date: date | None = None
         self.parse_args()
 
     def run(self) -> None:
@@ -44,17 +44,20 @@ class App:
             "--start-date",
             type=str,
             help="Start date of the desired period in YYYY-MM-DD format",
-            default="1000-01-01",
+            default="",
         )
         _ = parser.add_argument(
             "--end-date",
             type=str,
             help="End date of the desired period in YYYY-MM-DD format",
-            default="3000-12-31",
+            default="",
         )
 
         # Read arguments from command line and cast them to Args class
         args = parser.parse_args()
+
+        if cast(str, args.start_date) == "" or cast(str, args.end_date) == "":
+            return
 
         self.start_date = date.fromisoformat(cast(str, args.start_date))
         self.end_date = date.fromisoformat(cast(str, args.end_date))
