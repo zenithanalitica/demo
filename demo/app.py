@@ -1,17 +1,21 @@
-from datetime import timedelta
 import logging
 import os
 import time
+from datetime import timedelta
 from typing import cast
-import pandas as pd
+
 import convstr
+import pandas as pd
+
 from . import conversation as conv
 
 
 class App:
     def __init__(self) -> None:
         self.logger: logging.Logger = create_logger()
-        self.conversations: conv.Conversations = load_conversations(self.logger)
+        self.conversations: conv.Conversations = conv.Conversations(
+            load_conversations(self.logger)
+        )
 
     def run(self) -> None:
         # Process data
@@ -19,7 +23,7 @@ class App:
         self.conversations.compute_all_sentiment_changes(self.logger)
 
 
-def load_conversations(logger: logging.Logger) -> conv.Conversations:
+def load_conversations(logger: logging.Logger) -> pd.DataFrame:
     if not os.path.isfile("./conversations.pkl"):
         start_time = time.time()
         logger.info("Conversations not cached. Fetching from database...")
@@ -30,7 +34,7 @@ def load_conversations(logger: logging.Logger) -> conv.Conversations:
     else:
         logger.info("Found a cached conversation file.")
 
-    df = cast(conv.Conversations, pd.read_pickle("./conversations.pkl"))
+    df = cast(pd.DataFrame, pd.read_pickle("./conversations.pkl"))
     return df
 
 
