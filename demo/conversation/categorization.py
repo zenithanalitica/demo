@@ -87,4 +87,3 @@ def categorize_conversations(df: pd.DataFrame, logger: logging.Logger) -> pd.Dat
         f"Finished evaluating categories. Time taken: {timedelta(seconds=end_time - start_time)}"
     )
     return df_categorized
-

@@ -5,23 +5,21 @@ import time
 from typing import cast
 import pandas as pd
 import convstr
-from . import business_idea as bi
+from . import conversation as conv
 
 
 class App:
     def __init__(self) -> None:
         self.logger: logging.Logger = create_logger()
-        self.conversations: pd.DataFrame = load_conversations(self.logger)
+        self.conversations: conv.Conversations = load_conversations(self.logger)
 
     def run(self) -> None:
         # Process data
-        self.conversations = bi.categorization.categorize_conversations(
-            df, categorization.category_keywords, logger
-        )
-        df = bi.sentiment.compute_all_sentiment_changes(df, logger)
+        self.conversations.categorize(self.logger)
+        self.conversations.compute_all_sentiment_changes(self.logger)
 
 
-def load_conversations(logger: logging.Logger) -> pd.DataFrame:
+def load_conversations(logger: logging.Logger) -> conv.Conversations:
     if not os.path.isfile("./conversations.pkl"):
         start_time = time.time()
         logger.info("Conversations not cached. Fetching from database...")
@@ -32,7 +30,7 @@ def load_conversations(logger: logging.Logger) -> pd.DataFrame:
     else:
         logger.info("Found a cached conversation file.")
 
-    df = cast(pd.DataFrame, pd.read_pickle("./conversations.pkl"))
+    df = cast(conv.Conversations, pd.read_pickle("./conversations.pkl"))
     return df
 
 
