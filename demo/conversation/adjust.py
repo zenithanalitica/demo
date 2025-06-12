@@ -1,7 +1,9 @@
 import pandas as pd
 import datetime
+import logging
 
-def adjust_df(df: pd.DataFrame, start_date: datetime.date, end_date: datetime.date) -> pd.DataFrame:
+def adjust_df(df: pd.DataFrame, start_date: datetime.date, end_date: datetime.date, logger: logging.Logger) -> pd.DataFrame:
+
     if start_date is None or end_date is None:
         return df
     
@@ -16,5 +18,7 @@ def adjust_df(df: pd.DataFrame, start_date: datetime.date, end_date: datetime.da
     valid_conversations = adjusted_conv_df.index.get_level_values('conversation')
 
     adjusted_df = df[df.index.get_level_values('conversation').isin(valid_conversations)]
+
+    logger.info(f'Dates parsed correctly. Selected period: [{start_date} -> {end_date}]')
 
     return adjusted_df

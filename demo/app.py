@@ -23,7 +23,7 @@ class App:
 
     def run(self) -> None:
         # Process data
-        self.conversations.adjust(self.start_date, self.end_date)
+        self.conversations.adjust(self.start_date, self.end_date, self.logger)
         self.conversations.categorize(self.logger)
         self.conversations.compute_all_sentiment_changes(self.logger)
         self.save_df()

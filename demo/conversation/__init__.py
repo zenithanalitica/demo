@@ -8,8 +8,8 @@ import datetime
 
 class Conversations(pd.DataFrame):
 
-    def adjust(self, start_date: datetime.date, end_date: datetime.date):
-        self = adjust.adjust_df(self, start_date, end_date)
+    def adjust(self, start_date: datetime.date, end_date: datetime.date, logger: logging.Logger):
+        self = adjust.adjust_df(self, start_date, end_date, logger)
 
     def categorize(self, logger: logging.Logger):
         self = categorization.categorize_conversations(self, logger)
