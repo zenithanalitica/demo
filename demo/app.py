@@ -5,6 +5,7 @@ import time
 from typing import cast
 import pandas as pd
 import convstr
+from . import business_idea as bi
 
 
 class App:
@@ -13,7 +14,11 @@ class App:
         self.conversations: pd.DataFrame = load_conversations(self.logger)
 
     def run(self) -> None:
-        pass
+        # Process data
+        self.conversations = bi.categorization.categorize_conversations(
+            df, categorization.category_keywords, logger
+        )
+        df = bi.sentiment.compute_all_sentiment_changes(df, logger)
 
 
 def load_conversations(logger: logging.Logger) -> pd.DataFrame:
