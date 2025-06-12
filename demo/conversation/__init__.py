@@ -8,7 +8,10 @@ import datetime
 
 class Conversations(pd.DataFrame):
     def adjust(
-        self, start_date: datetime.date, end_date: datetime.date, logger: logging.Logger
+        self,
+        start_date: datetime.date | None,
+        end_date: datetime.date | None,
+        logger: logging.Logger,
     ):
         return Conversations(adjust.adjust_df(self, start_date, end_date, logger))
 
