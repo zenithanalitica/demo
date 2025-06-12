@@ -30,7 +30,9 @@ class App:
         self.conversations = self.conversations.compute_all_sentiment_changes(
             self.logger
         )
-        self.save_df()
+
+        if self.start_date is None and self.end_date is None:
+            self.save_df()
 
     def parse_args(self):
         # Initialize parser
