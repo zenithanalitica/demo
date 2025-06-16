@@ -1,6 +1,8 @@
+from pathlib import Path
 from typing import cast
-import pandas as pd
+
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # Load your data (update the path as needed)
 # If your CSV was read with a MultiIndex, we'll reset it to access 'tweet' as a column:
@@ -51,4 +53,9 @@ ax.set_ylabel("Category")
 ax.set_title("Sentiment Shift by Category")
 ax.legend()
 plt.tight_layout()
+
+# Ensure output directory exists
+Path("output").mkdir(parents=True, exist_ok=True)
+
+# Save to file
 plt.savefig("output/dumbell.png")
