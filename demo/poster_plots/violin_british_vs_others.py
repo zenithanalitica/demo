@@ -5,7 +5,7 @@ import seaborn as sns
 
 BRITISH_AIRWAYS_ID = "18332190"
 
-def main():
+def main(df: pd.DataFrame):
 
     category_order = sorted(df['category'].unique())
     df = df.reset_index()
