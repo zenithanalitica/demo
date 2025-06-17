@@ -9,6 +9,7 @@ import convstr
 import pandas as pd
 
 from . import conversation as conv
+from . import poster_plots as plots
 
 
 class App:
@@ -30,6 +31,9 @@ class App:
         self.conversations = self.conversations.compute_all_sentiment_changes(
             self.logger
         )
+
+        plots.dumbell.main(self.conversations)
+        plots.sankey.main(self.conversations)
 
         if self.start_date is None and self.end_date is None:
             self.save_df()
