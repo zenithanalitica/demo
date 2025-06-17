@@ -16,6 +16,7 @@ dependencies = [
     "seaborn>=0.13.2",
     "kaleido==0.2.1",
     "scipy>=1.15.3",
+    "scikit-posthocs>=0.11.4",
 ]
 
 [tool.uv.sources]
