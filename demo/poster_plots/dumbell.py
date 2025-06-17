@@ -7,16 +7,15 @@ import pandas as pd
 
 def main(df: pd.DataFrame):
     # If your CSV was read with a MultiIndex, we'll reset it to access 'tweet' as a column:
-    df = df.reset_index()
-    # Now identify first tweet of each conversation
+    df_british_airways = df.loc["18332190"]
+    df = df_british_airways.reset_index()
+
     first_tweets = df[df["tweet"] == 0].copy()
 
-    # Compute average sentiment score per category for first tweets (red)
     base_sentiment = (
         first_tweets.groupby("category")["sentiment_score"].mean().rename("base")
     )
 
-    # Compute average sentiment_change per conversation, then adjusted score per conversation
     delta = (
         df.groupby(["category", "conversation"])["sentiment_change"]
         .mean()
@@ -28,15 +27,12 @@ def main(df: pd.DataFrame):
     )
     delta["adjusted"] = delta["sentiment_score"] + delta["sentiment_change"]
 
-    # Compute average adjusted score per category (blue)
     adjusted_sentiment = delta.groupby("category")["adjusted"].mean().rename("adjusted")
 
-    # Combine into plotting DataFrame
     plot_df = pd.concat([base_sentiment, adjusted_sentiment], axis=1).reset_index()
     plot_df = plot_df.sort_values("base")
 
-    # Create dumbbell plot
-    fig, ax = plt.subplots(figsize=(10, 6))
+    _, ax = plt.subplots(figsize=(10, 6))
     ax.hlines(
         plot_df["category"],
         plot_df["base"],
@@ -48,18 +44,18 @@ def main(df: pd.DataFrame):
         plot_df["base"],
         plot_df["category"],
         color="red",
-        label="Avg first-tweet sentiment",
+        label="Average first tweet sentiment",
     )
     ax.scatter(
         plot_df["adjusted"],
         plot_df["category"],
         color="blue",
-        label="First + avg change",
+        label="Average end of conversation sentiment",
     )
 
     ax.set_xlabel("Sentiment Score")
     ax.set_ylabel("Category")
-    ax.set_title("Sentiment Shift by Category")
+    ax.set_title("Sentiment Shift by Category for British Airways")
     ax.legend()
     plt.tight_layout()
 
