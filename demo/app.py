@@ -39,6 +39,7 @@ class App:
         )
         plots.categories_pie_chart.main(self.conversations)
         plots.spider_chart.main(self.conversations, self.start_date, self.end_date)
+        plots.heatmap_ks_tests.main(self.conversations)
 
         if self.start_date is None and self.end_date is None:
             self.save_df()
