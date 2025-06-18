@@ -34,7 +34,6 @@ class App:
 
         plots.dumbell.main(self.conversations)
         plots.sankey.main(self.conversations)
-        plots.compare_categories.main(self.conversations)
 
         if self.start_date is None and self.end_date is None:
             self.save_df()
