@@ -46,7 +46,7 @@ def main(df: pd.DataFrame):
         vmin=0, vmax=1,
         linewidths=0.5
     )
-    plt.title('Pairwise KS Test P-Values\n(Bonferroni Corrected)', fontsize=14)
+    plt.title('Pairwise KS Test P-Values', fontsize=14)
     plt.xlabel('Category')
     plt.ylabel('Category')
     plt.tight_layout()
