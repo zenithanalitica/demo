@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 from typing import cast
 
@@ -6,7 +7,9 @@ import plotly.graph_objects as go
 from plotly.offline import init_notebook_mode, iplot
 
 
-def main(df: pd.DataFrame):
+def main(
+    df: pd.DataFrame, start_date: datetime.date | None, end_date: datetime.date | None
+):
     # Reset your MultiIndex and sort by tweet order
     df_reset = df.reset_index()
 
@@ -54,9 +57,10 @@ def main(df: pd.DataFrame):
         )
     )
 
+    date = f" between {start_date} and {end_date}" if start_date is not None else ""
     fig.update_layout(
-        title_text=f"Sentiment Transition for British Airways",
-        width=600,
+        title_text=f"Sentiment Transition for British Airways{date}",
+        width=630,
         height=600,
         margin=dict(l=50, r=50, t=80, b=50),
         plot_bgcolor="white",
