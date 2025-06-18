@@ -66,7 +66,7 @@ def main(df: pd.DataFrame):
     Path("output").mkdir(parents=True, exist_ok=True)
 
     # Save to file
-    fig.write_image("output/sankey.png")
+    fig.write_html("output/sankey.html")
 
 
 if __name__ == "__main__":
