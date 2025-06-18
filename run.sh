@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -e
 
 # Clone or pull latest changes
@@ -45,11 +45,11 @@ fi
 APP_CID=""
 while [ -z "$APP_CID" ]; do
   sleep 1
-  APP_CID=$(docker-compose ps -q $APP_NAME)
+  APP_CID=$(docker compose ps -q $APP_NAME)
 done
 
 # Wait for the app container to exit
 docker wait $APP_CID
 
 # Shut down the rest of the stack
-docker-compose down
+docker compose down

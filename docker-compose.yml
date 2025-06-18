@@ -94,7 +94,7 @@ services:
     networks:
         - db
 
-  demo-app:
+  demo-app-cpu:
     profiles: ["cpu"]
     build:
       context: .
@@ -107,7 +107,6 @@ services:
     depends_on:
       sentiment-score-cpu:
         condition: service_completed_successfully
-
 
 networks:
   db:
