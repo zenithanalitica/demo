@@ -46,4 +46,4 @@ def main(df: pd.DataFrame, start_date: datetime.date, end_date: datetime.date):
 if __name__ == "__main__":
     # Load your data
     df = cast(pd.DataFrame, pd.read_pickle("./conversations.pkl"))
-    main(df)
+    main(df, None, None)
