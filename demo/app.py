@@ -34,6 +34,7 @@ class App:
 
         plots.dumbell.main(self.conversations, self.start_date, self.end_date)
         plots.sankey.main(self.conversations, self.start_date, self.end_date)
+        plots.violin_british_vs_others.main(self.conversations, self.start_date, self.end_date)
 
         if self.start_date is None and self.end_date is None:
             self.save_df()
