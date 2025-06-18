@@ -2,26 +2,30 @@
 
 ## Prerequisites
 
-* **[Docker](https://docs.docker.com/get-docker/)** (with Docker Compose ≥ 2.0)
-* **[Git](https://git-scm.com/)**
-* **[NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)** (Optional, but significantly speeds up sentiment score calculations)
+- **[Docker](with https://docs.docker.com/get-docker/)** (Docker Compose ≥ 2.0)
+- **[Git](https://git-scm.com/)**
+- **[NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)**  (*Optional — significantly speeds up sentiment score calculation*)
+- **[uv](https://docs.astral.sh/uv/)**  (*Only needed if running without Docker — see [Using an Existing Database](#using-an-existing-database)*)
 
-> **Note for Windows Users:**
-> If you're using GPU acceleration, refer to the [Docker GPU support documentation](https://docs.docker.com/desktop/features/gpu/).
+> [!NOTE]
+> **Windows Users (GPU Support)**  
+> Refer to [Docker GPU support documentation](https://docs.docker.com/desktop/features/gpu/) if using GPU acceleration.
 
 ---
 
 ## Running
 
-### On Linux
+### 1. Clone the Repository
 
-1. Clone the repository:
+```bash
+git clone https://github.com/zenithanalitica/demo/
+cd demo/
+````
 
-   ```bash
-   git clone https://github.com/zenithanalitica/demo/
-   cd demo/
+### 2. Add the Data Files
 
-2. Place unzipped data in the current directory, so it looks like this:
+Place the unzipped data files in the project root so the structure looks like:
+
 ```
 |
 |- data/
@@ -32,55 +36,46 @@
 |- run.sh
 |- run.ps1
 ```
-3. Make the `run.sh` script executable:
 
-   ```bash
-   chmod +x run.sh
-   ```
-4. Execute the script:
+### 3. Run the Script
 
-   ```bash
-   ./run.sh
-   ```
+#### On **Linux/macOS**:
+
+Make the script executable and run it:
+
+```bash
+chmod +x run.sh
+./run.sh
+```
+
+#### On **Windows**:
+
+Run the PowerShell script:
+
+```powershell
+.\run.ps1
+```
+
+> You may need to bypass execution policy:
+> `powershell -ExecutionPolicy Bypass -File run.ps1`
 
 ---
 
-### On Windows
+## Using an Existing Database
+> [!WARNING]
+> The program expects the database to be already populated with sentiment score calculated
 
-1. Clone the repository:
+To run the demo without importing data:
 
-   ```bash
-   git clone https://github.com/zenithanalitica/demo/
-   cd demo/
-2. Place unzipped data in the current directory, so it looks like this:
+1. Create a `.env` file in the project root directory with:
+
 ```
-|
-|- data/
-|    |- airlines-15....json
-|    |- airlines-15....json
-|    |- ...
-|- demo/
-|- run.sh
-|- run.ps1
+NEO4J_URI=your-db-host:7687
+NEO4J_USER=your_username
+NEO4J_PASSWORD=your_password
 ```
-3. Run the Powershell file:
 
-   ```bash
-   .\run.ps1
-   ```
-(You may need to bypass the execution policy with `powershell -ExecutionPolicy Bypass -File run.ps1`)
-
----
-
-### Running with an Existing and Populated Database
-
-To run the demo without setting up or populating a new database, create a `.env` file in the project root directory with the following environment variables:
-
-* `NEO4J_URI      # Points to the database address (e.g., example.com:7687)`
-* `NEO4J_USER`
-* `NEO4J_PASSWORD`
-
-Then run the demo using:
+2. Run the demo:
 
 ```bash
 uv run python -m demo
@@ -88,10 +83,9 @@ uv run python -m demo
 
 ---
 
-### Running with an Existing `conversations.pkl` File
+## Using an Existing Pickled Conversations File
 
-Ensure the `conversations.pkl` file is located in the project root directory.
-Then, simply execute:
+If you already have a `conversations.pkl` file, place it in the project root and run:
 
 ```bash
 uv run python -m demo
@@ -104,17 +98,22 @@ uv run python -m demo
 ```
 demo/
 │
-├── conversation/        # Handles sentiment evolution calculation and categorization into topics
-│   └── adjust.py        # Filters conversations by a specified time frame
+├── conversation/         # Computes sentiment evolution & categorizes by topic
+│   └── adjust.py         # Filters conversations by a specified time frame
 │
-└── poster_plots/        # Generates visualizations used in the poster
+└── poster_plots/         # Generates visualizations for the project poster
 ```
 
-The demo relies on the [`conversation-store`](https://github.com/zenithanalitica/conversation-store) library, developed in-house. It retrieves conversations from the database and stores them in a pickle file for fast access.
+The demo uses our custom library [`conversation-store`](https://github.com/zenithanalitica/conversation-store), which retrieves conversations from the database and stores them in a pickle file for fast access.
 
-When running `run.sh` (Linux/macOS) or `run.ps1` (Windows), two additional repositories are cloned automatically:
+### External Dependencies (Cloned Automatically)
 
-* [`data-pipeline`](https://github.com/zenithanalitica/data-pipeline): Parses `.json` files, cleans the data, removes duplicates, and uploads it to the database.
-* [`sentiment-score`](https://github.com/zenithanalitica/sentiment-score): Computes sentiment scores for each Tweet stored in the database.
+When running `run.sh` or `run.ps1`, the following repositories are cloned:
+
+* [`data-pipeline`](https://github.com/zenithanalitica/data-pipeline)
+  Parses `.json` files, cleans data, removes duplicates, and uploads to the database.
+
+* [`sentiment-score`](https://github.com/zenithanalitica/sentiment-score)
+  Calculates sentiment scores for each Tweet in the database.
 
 ---
