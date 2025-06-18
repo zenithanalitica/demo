@@ -13,7 +13,7 @@ def main(df: pd.DataFrame):
     )  # assumes df is indexed by ['airline','conversation','tweet']
 
     # 1) Enable offline
-    init_notebook_mode(connected=True)
+    # init_notebook_mode(connected=True)
 
     # 2) Reset index and sort
     df_reset = df.reset_index()
