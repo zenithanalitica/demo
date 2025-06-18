@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 from typing import cast
 
@@ -6,36 +7,30 @@ import plotly.graph_objects as go
 from plotly.offline import init_notebook_mode, iplot
 
 
-def main(df: pd.DataFrame):
+def main(
+    df: pd.DataFrame, start_date: datetime.date | None, end_date: datetime.date | None
+):
     # Reset your MultiIndex and sort by tweet order
-    df_reset = (
-        df.reset_index()
-    )  # assumes df is indexed by ['airline','conversation','tweet']
+    df_reset = df.reset_index()
 
-    # 1) Enable offline
-    # init_notebook_mode(connected=True)
-
-    # 2) Reset index and sort
+    # Reset index and sort
     df_reset = df.reset_index()
     df_sorted = df_reset.sort_values(["airline", "conversation", "tweet"])
 
-    # 3) Filter to the airline you confirmed exists
-    AIRLINE_ID = "18332190"  # ← replace with a valid ID from the printout
+    # Filter to the airline you confirmed exists
+    AIRLINE_ID = "18332190"
     df_airline = df_sorted[df_sorted["airline"] == AIRLINE_ID]
 
-    # 4) Compute first & last sentiments
+    # Compute first & last sentiments
     trans = (
         df_airline.groupby(["airline", "conversation"])["sentiment_label"]
         .agg(first="first", last="last")
         .reset_index()
     )
 
-    # 5) Count transitions
+    # Count transitions
     counts = trans.groupby(["first", "last"]).size().reset_index(name="count")
 
-    # 6) Sankey boilerplate (same as before)
-    # labels = ["Positive\n", "Neutral\n", "Negative\n",
-    #           "Positive\n",  "Neutral\n",  "Negative\n"]
     colors = ["#4CAF50", "#9E9E9E", "#F44336"] * 2
     first_map = {"positive": 0, "neutral": 1, "negative": 2}
     last_map = {"positive": 3, "neutral": 4, "negative": 5}
@@ -62,9 +57,10 @@ def main(df: pd.DataFrame):
         )
     )
 
+    date = f" between {start_date} and {end_date}" if start_date is not None else ""
     fig.update_layout(
-        title_text=f"Sentiment Transition for British Airways",
-        width=600,
+        title_text=f"Sentiment Transition for British Airways{date}",
+        width=630,
         height=600,
         margin=dict(l=50, r=50, t=80, b=50),
         plot_bgcolor="white",
@@ -74,7 +70,7 @@ def main(df: pd.DataFrame):
     Path("output").mkdir(parents=True, exist_ok=True)
 
     # Save to file
-    fig.write_image("output/sankey.png")
+    fig.write_html("output/sankey.html")
 
 
 if __name__ == "__main__":

@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 from typing import cast
 
@@ -5,7 +6,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 
-def main(df: pd.DataFrame):
+def main(
+    df: pd.DataFrame, start_date: datetime.date | None, end_date: datetime.date | None
+):
     # If your CSV was read with a MultiIndex, we'll reset it to access 'tweet' as a column:
     df_british_airways = df.loc["18332190"]
     df = df_british_airways.reset_index()
@@ -53,9 +56,10 @@ def main(df: pd.DataFrame):
         label="Average end of conversation sentiment",
     )
 
+    date = f" between {start_date} and {end_date}" if start_date is not None else ""
     ax.set_xlabel("Sentiment Score")
     ax.set_ylabel("Category")
-    ax.set_title("Sentiment Shift by Category for British Airways")
+    ax.set_title(f"Sentiment Shift by Category for British Airways{date}")
     ax.legend()
     plt.tight_layout()
 
