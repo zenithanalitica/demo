@@ -66,11 +66,15 @@ class App:
         # Read arguments from command line and cast them to Args class
         args = parser.parse_args()
 
-        if cast(str, args.start_date) == "" or cast(str, args.end_date) == "":
-            return
+        if cast(str, args.start_date) == "":
+            self.start_date = None
+        else:
+            self.start_date = date.fromisoformat(cast(str, args.start_date))
 
-        self.start_date = date.fromisoformat(cast(str, args.start_date))
-        self.end_date = date.fromisoformat(cast(str, args.end_date))
+        if cast(str, args.end_date) == "":
+            self.end_date = None
+        else:
+            self.end_date = date.fromisoformat(cast(str, args.end_date))
 
     def save_df(self) -> None:
         file = "./conversations.pkl"

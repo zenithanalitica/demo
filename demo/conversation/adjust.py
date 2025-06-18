@@ -9,15 +9,26 @@ def adjust_df(
     end_date: datetime.date | None,
     logger: logging.Logger,
 ) -> pd.DataFrame:
-    if start_date is None or end_date is None:
-        logger.info(f"No date range specified. Using full period")
+    if start_date is None and end_date is None:
+        logger.info("No date range specified. Using full period")
         return df
 
     conversations = df.xs(0, level="tweet").copy()
     conversations["created_at"] = pd.to_datetime(conversations["created_at"])
 
+    # Clamp to begging/end for missing value
+    if start_date is None:
+        start_date = conversations["created_at"].dt.date.min()
+    if end_date is None:
+        end_date = conversations["created_at"].dt.date.max()
+
+    # Clamp start and end date to df span
+    start_date = max(start_date, conversations["created_at"].dt.date.min())
+    end_date = min(end_date, conversations["created_at"].dt.date.max())
+
+    # Mask out conversations outside specified range
     mask = (conversations["created_at"].dt.date >= start_date) & (
-        conversations["created_at"].dt.date <= end_date
+        conversations["created_at"].dt.date < end_date
     )
 
     adjusted_conv_df = conversations[mask]
@@ -33,4 +44,3 @@ def adjust_df(
     )
 
     return adjusted_df
-
