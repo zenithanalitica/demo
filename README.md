@@ -2,14 +2,13 @@
 
 ## Prerequisites
 
-- **[Docker](with https://docs.docker.com/get-docker/)** (Docker Compose ≥ 2.0)
+- **[Docker](https://docs.docker.com/get-docker/)** (with Docker Compose ≥ 2.0)
 - **[Git](https://git-scm.com/)**
 - **[NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html)**  (*Optional — significantly speeds up sentiment score calculation*)
 - **[uv](https://docs.astral.sh/uv/)**  (*Only needed if running without Docker — see [Using an Existing Database](#using-an-existing-database)*)
 
 > [!NOTE]
-> **Windows Users (GPU Support)**  
-> Refer to [Docker GPU support documentation](https://docs.docker.com/desktop/features/gpu/) if using GPU acceleration.
+> Refer to [Docker GPU support documentation](https://docs.docker.com/desktop/features/gpu/) for GPU acceleration on Windows.
 
 ---
 
