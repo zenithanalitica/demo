@@ -21,3 +21,6 @@ data/
 data-pipeline/
 sentiment-score/
 neo4j/
+
+# Plots
+output/
