@@ -8,32 +8,26 @@ from plotly.offline import init_notebook_mode, iplot
 
 def main(df: pd.DataFrame):
     # Reset your MultiIndex and sort by tweet order
-    df_reset = (
-        df.reset_index()
-    )  # assumes df is indexed by ['airline','conversation','tweet']
+    df_reset = df.reset_index()
 
-
-    # 2) Reset index and sort
+    # Reset index and sort
     df_reset = df.reset_index()
     df_sorted = df_reset.sort_values(["airline", "conversation", "tweet"])
 
-    # 3) Filter to the airline you confirmed exists
-    AIRLINE_ID = "18332190"  # ← replace with a valid ID from the printout
+    # Filter to the airline you confirmed exists
+    AIRLINE_ID = "18332190"
     df_airline = df_sorted[df_sorted["airline"] == AIRLINE_ID]
 
-    # 4) Compute first & last sentiments
+    # Compute first & last sentiments
     trans = (
         df_airline.groupby(["airline", "conversation"])["sentiment_label"]
         .agg(first="first", last="last")
         .reset_index()
     )
 
-    # 5) Count transitions
+    # Count transitions
     counts = trans.groupby(["first", "last"]).size().reset_index(name="count")
 
-    # 6) Sankey boilerplate (same as before)
-    # labels = ["Positive\n", "Neutral\n", "Negative\n",
-    #           "Positive\n",  "Neutral\n",  "Negative\n"]
     colors = ["#4CAF50", "#9E9E9E", "#F44336"] * 2
     first_map = {"positive": 0, "neutral": 1, "negative": 2}
     last_map = {"positive": 3, "neutral": 4, "negative": 5}
